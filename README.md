@@ -1,4 +1,4 @@
 # React
-Practicing ReactNative on Coursera Full stact React development!
+Practicing React Native on Coursera Full stact React development!
 
 ![alt test](/ReactNative.png)
