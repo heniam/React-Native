@@ -1,38 +1,49 @@
- import React, { Component } from 'react';
-import Menu from './MenuComponent';
-import { DISHES } from '../shared/dishes';
-import Dishdetail from './DishdetailComponent';
+import React, { Component } from 'react';
 import { View, Platform } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
 
-const MenuNavigator = createStackNavigator({
-    Menu: { screen: Menu },
-    Dishdetail: { screen: Dishdetail }
-}, {
+import Menu from './MenuComponent';
+import Dishdetail from './DishdetailComponent';
+
+import { DISHES } from '../shared/dishes';
+
+
+const MenuNavigator = createStackNavigator(
+  {
+    Menu: {
+      screen: Menu,
+    },
+    Dishdetail: {
+      screen: Dishdetail,
+    },
+  },
+  {
     initialRouteName: 'Menu',
-    navigationOptions: {
-        headerStyle:{
-          backgroundColour: '#512DA8'
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle:{
-          color:'#fff'
-        }
-    }
-});
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#512DA8',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        color: '#fff',
+      },
+    },
+  },
+);
+
+const MenuNavigatorContainer = createAppContainer(MenuNavigator);
 
 
 class Main extends Component {
 
   render() {
-
     return (
-        <View style={{flex:1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
-          <MenuNavigator/>
-        </View>
+      <View style={{flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight}}>
+        <MenuNavigatorContainer/>
+      </View>
     );
   }
 }
-
 
 export default Main;
