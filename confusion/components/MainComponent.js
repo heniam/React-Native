@@ -19,41 +19,31 @@ YellowBox.ignoreWarnings(['VirtualizedLists should never be nested']);
 
 
 const MenuNavigator = createStackNavigator({
-    Menu: {
-          screen: Menu,
-           navigationOptions: ({ navigation }) => ({
-             headerLeft: () =>
-                <Icon
-                  name="menu"
-                  size={24}
-                  color= 'white'
-                  onPress={ () => navigation.toggleDrawer() }
-             />
-           })
-       },
-    Dishdetail: {
-      screen: Dishdetail,
-    },
-  },
-  {
-    initialRouteName: 'Menu',
-    defaultNavigationOptions: ({navigation}) => ({
+  Menu: { screen: Menu,
+    navigationOptions: ({navigation}) => ({
       headerStyle: {
-        backgroundColor: '#512DA8',
+        backgroundColor: '#512DA8'
       },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        color: '#fff',
-      },
-      headerLeft: () =>
-         <Icon
-           name="menu"
-           size={24}
-           color= 'white'
-           onPress={ () => navigation.toggleDrawer() }
-      />
-    }),
-  });
+      headerLeft: <Icon name='menu'
+                        size={24}
+                        color='white'
+                        onPress={ () => navigation.toggleDrawer() } />
+    })
+  },
+  Dishdetail: { screen: Dishdetail }
+}, {
+  initialRouteName: 'Menu',
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: '#512DA8'
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      color: '#fff'
+    }
+  }
+});
+
 
 const HomeNavigator = createStackNavigator({
     Home: {screen: Home},
@@ -116,7 +106,7 @@ const ContactNavigator = createStackNavigator({
            color= 'white'
            onPress={ () => navigation.toggleDrawer() }
       />
-    }),
+    })
   });
 
 
