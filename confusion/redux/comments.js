@@ -1,4 +1,4 @@
-import * as ActionType from './ActionType';
+import * as ActionType from './ActionTypes';
 
 export const comments = (state = {
           isLoading: true,

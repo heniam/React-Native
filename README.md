@@ -1,4 +1,5 @@
 # React
 Practicing React Native on Coursera Full stact React development!
 
-![alt test](/ReactNative.png)
+![alt first setup](/ReactNative.png)
+![alt WorkingApp](/App.gif)

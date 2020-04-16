@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { Text, View ,ScrollView, FlatList} from 'react-native';
 import { Card, Icon } from 'react-native-elements';
+/* we dont need dishes and comments beacuse its
+connected throigh the redux store */
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
 
-import { DISHES } from '../shared/dishes';
-import { COMMENTS } from '../shared/comments';
+const mapStateToProps = state => {
+  return{
+    dishes : state.dishes,
+    comments : state.comments
+  }
+}
+
 
 function RenderDish(props) {
     const dish = props.dish;
@@ -11,8 +20,8 @@ function RenderDish(props) {
         if (dish != null) {
             return(
               <Card
-          featuredTitle={dish.name}
-          image={require('./images/uthappizza.png')}>
+                featuredTitle={dish.name}
+                image={{uri: baseUrl + dish.image }}>
               <Text style={{margin: 10}}>
                   {dish.description}
               </Text>
@@ -64,8 +73,6 @@ class Dishdetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-           dishes: DISHES,
-           comments: COMMENTS,
            favorites: []
        };
     }
@@ -83,11 +90,11 @@ class Dishdetail extends Component {
       const dishId = this.props.navigation.getParam('dishId','');
       return(
         <ScrollView>
-            <RenderDish dish={this.state.dishes[+dishId]}
+            <RenderDish dish={this.props.dishes.dishes[+dishId]}
                         favorite={this.state.favorites.some(el => el === dishId)}
                         onPress={() => this.markFavorite(dishId)}/>
 
-            <RenderComments comments={this.state.comments.filter((comment) => comment.dishId === dishId)} />
+            <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
 
         </ScrollView>
       );
@@ -97,4 +104,4 @@ class Dishdetail extends Component {
 
 
 
-export default Dishdetail;
+export default connect(mapStateToProps)(Dishdetail);
