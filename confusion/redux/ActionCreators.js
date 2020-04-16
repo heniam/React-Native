@@ -143,7 +143,7 @@ export const addLeaders = (leaders) => ({
 });
 
 export const postFavorite = (dishId)  => (dispatch) => {
-
+//1 second delay on the favorite click
     setTimeout(() => {
         dispatch(addFavorite(dishId));
     }, 1000);
