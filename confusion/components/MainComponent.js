@@ -11,7 +11,6 @@ import Contact from './ContactComponent';
 import About from './AboutComponent';
 
 import { Icon } from 'react-native-elements';
-
 /*Suppressing the warning */
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['VirtualizedLists should never be nested']);

@@ -7,7 +7,7 @@ class Contact extends Component {
 
   render() {
     return(
-
+      <ScrollView>
         <Card title="Contact Information">
 
         <Text style={{ margin: 10 }}>
@@ -35,6 +35,7 @@ class Contact extends Component {
         </Text>
 
         </Card>
+      </ScrollView>
     )
   }
 
