@@ -8,11 +8,10 @@ class Reservation extends Component {
 
   constructor(props) {
       super(props);
-
       this.state = {
           guests: 1,
           smoking: false,
-          date : new Date(),
+          date : '',
           showModal: false
       }
   }
@@ -21,7 +20,7 @@ class Reservation extends Component {
       title: 'Reserve Table',
   }
 
-  toggleModal() {
+    toggleModal() {
        this.setState({showModal: !this.state.showModal});
    }
 
@@ -103,22 +102,22 @@ class Reservation extends Component {
                  </View>
 
                  <Modal
-                    animationType = {"slide"} transparent = {false}
+                    animationType = {"slide"}
+                    transparent = {false}
                     visible = {this.state.showModal}
-                    onDismiss = {() => this.toggleModal() }
-                    onRequestClose = {() => this.toggleModal() }>
-
+                    onDismiss = {() =>{this.toggleModal(); this.resetForm();}}
+                    onRequestClose = {() =>{this.toggleModal(); this.resetForm();}}>
                     <View style = {styles.modal}>
-                        <Text style = {styles.modalTitle}>Your Reservation</Text>
-                        <Text style = {styles.modalText}>Number of Guests: {this.state.guests}</Text>
-                        <Text style = {styles.modalText}>Smoking: {this.state.smoking ? 'Yes' : 'No'}</Text>
-                        <Text style = {styles.modalText}>Date and Time: {this.state.date}</Text>
+                      <Text style = {styles.modalTitle}>Your Reservation</Text>
+                      <Text style = {styles.modalText}>Number of Guests: {this.state.guests}</Text>
+                      <Text style = {styles.modalText}>Smoking: {this.state.smoking ? 'Yes' : 'No'}</Text>
+                      <Text style = {styles.modalText}>Date and Time: {this.state.date}</Text>
 
-                        <Button
-                            onPress = {() => {this.toggleModal(); this.resetForm();}}
-                            color="#512DA8"
-                            title="Close"
-                            />
+                      <Button
+                          onPress = {() =>{this.toggleModal(); this.resetForm();}}
+                          color="#512DA8"
+                          title="Close"
+                          />
                     </View>
                 </Modal>
              </ScrollView>
