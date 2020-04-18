@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View ,ScrollView, FlatList,StyleSheet, Button, Modal } from 'react-native';
+import { Text, View ,ScrollView, FlatList,StyleSheet, Button, Modal, Alert, PanResponder } from 'react-native';
 import { Card, Icon,Rating, Input} from 'react-native-elements';
 /* we dont need dishes and comments beacuse its
 connected throigh the redux store */
@@ -25,9 +25,44 @@ const mapDispatchToProps = dispatch => ({
 function RenderDish(props) {
     const dish = props.dish;
 
+    const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+      if ( dx < -200 )
+          return true;
+      else {
+        return false;
+      }
+    };
+
+    const panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (e, gestureState) => {
+        return true;
+      },
+      onPanResponderEnd: (e, gestureState) => {
+        if(recognizeDrag(gestureState))
+            Alert.alert(
+              'Add to Favorites?',
+              'Are you sure you wish to add ' + dish.name + ' to your favorites?',
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log(' Cancel pressed'),
+                  style: 'cancel'
+                },
+                {
+                  text:'OK',
+                  onPress: () => props.favorite ? console.log('Already favorite') : props.onPress(),
+                }
+              ],
+              {cancelable: false}
+            )
+        return true;
+      }
+    });
+
         if (dish != null) {
             return(
-              <Animatable.View animation="fadeInDown" duration={2000} delay={100}>
+              <Animatable.View animation="fadeInDown" duration={2000} delay={100}
+                  {...panResponder.panHandlers}>
                   <Card
                     featuredTitle={dish.name}
                     image={{uri: baseUrl + dish.image }}>
