@@ -41,10 +41,10 @@ function RenderDish(props) {
         return true;
       },
 
-   onPanResponderGrant: () => {
-        this.view.rubberBand(1000)
-        .then(endState => console.log(endState.finished ? 'finished' : 'cancelled'))
-      },
+   // onPanResponderGrant: () => {
+   //      this.view.rubberBand(1000)
+   //      .then(endState => console.log(endState.finished ? 'finished' : 'cancelled'))
+   //    },
 
       onPanResponderEnd: (e, gestureState) => {
         if(recognizeDrag(gestureState))
@@ -59,7 +59,7 @@ function RenderDish(props) {
                 },
                 {
                   text:'OK',
-                  onPress: () => props.favorite ? console.log('Already favorite') : props.onPress().bind(this),
+                  onPress: () => props.favorite ? console.log('Already favorite') : props.onPress(),
                 }
               ],
               {cancelable: false}
