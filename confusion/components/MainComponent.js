@@ -11,6 +11,7 @@ import Contact from './ContactComponent';
 import About from './AboutComponent';
 import Reservation from './ReservationComponent';
 import Favorites from './FavoriteComponent';
+import Login from './LoginComponent';
 
 import { Icon } from 'react-native-elements';
 /*Suppressing the warning */
@@ -177,6 +178,26 @@ const ContactNavigator = createStackNavigator({
         })
       });
 
+      const LoginNavigator = createStackNavigator({
+          Login: {screen: Login},
+        },{
+          defaultNavigationOptions: ({navigation}) => ({
+            headerStyle: {
+              backgroundColor: '#512DA8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              color: '#fff',
+            },
+            headerLeft: () =>
+               <Icon
+                 name="menu"
+                 size={24}
+                 color= 'white'
+                 onPress={ () => navigation.toggleDrawer() }
+            />
+          })
+        });
 
   const CustomDrawerContentComponent = (props) => (
 
@@ -207,6 +228,21 @@ const ContactNavigator = createStackNavigator({
 
 
 const MainNavigator = createDrawerNavigator({
+  Login: {
+    screen: LoginNavigator,
+    navigationOptions: {
+      title: 'Login',
+      drawerLabel: 'Login',
+      drawerIcon: ({tintColor }) => (
+        <Icon
+            name='sign-in'
+            type='font-awesome'
+            size={24}
+            color={tintColor}
+            />
+        ),
+    },
+  },
     Home: {
       screen: HomeNavigator,
       navigationOptions: {
@@ -285,7 +321,7 @@ const MainNavigator = createDrawerNavigator({
           ),
       },
     },
-    
+
 
     Reservation: {
       screen: ReservationNavigator,
@@ -305,6 +341,8 @@ const MainNavigator = createDrawerNavigator({
 
   },
   {
+    //we want to show th ehome page first instead of the login
+    initialRouteName: 'Home',
     drawerBackgroundColor: '#D1C4E9',
     contentComponent: CustomDrawerContentComponent
   },

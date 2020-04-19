@@ -26,7 +26,7 @@ function RenderDish(props) {
     const dish = props.dish;
 
     //Unnecessary rubber Animation
-    handleViewRef = ref => this.view = ref;
+  //  handleViewRef = ref => this.view = ref;
 
     const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
       if ( dx < -200 )
@@ -51,39 +51,47 @@ function RenderDish(props) {
         return true;
       },
 
-   onPanResponderGrant: () => {
-        this.view.rubberBand(1000)
-        .then(endState => console.log(endState.finished ? 'finished' : 'cancelled'))
-      },
+   // onPanResponderGrant: () => {
+   //      this.view.rubberBand(1000)
+   //      .then(endState => console.log(endState.finished ? 'finished' : 'cancelled'))
+   //    },
 
-      onPanResponderEnd: (event, gestureState) => {
-        if(recognizeDrag(gestureState))
-            Alert.alert(
-              'Add to Favorites?',
-              'Are you sure you wish to add ' + dish.name + ' to your favorites?',
-              [
-                {
-                  text: 'Cancel',
-                  onPress: () => console.log(' Cancel pressed'),
-                  style: 'cancel'
-                },
-                {
-                  text:'OK',
-                  onPress: () => props.favorite ? console.log('Already favorite') : props.onPress()
-                  ,
-                }
-              ],
-              {cancelable: false}
+      onPanResponderEnd: (event, gestureState) =>
+   {
+     if (recognizeDrag(gestureState))
+        {
+           Alert.alert(
+             "Add to Favorites?",
+             `Are you sure you wish to add ${dish.name} to your favorites?`,
+             [
+               {
+                 text: "Cancel",
+                 onPress: () => console.log("Cancel pressed"),
+                 style: "cancel"
+               },
+               {
+                 text: "Ok",
+                 onPress: () => props.favorite ? console.log("Already favorite") : props.onPress()
+               }
+             ],
+             { cancelable: false }
             )
-        return true;
-      }
-    });
+          }
+
+          else if (recognizeComment(gestureState))
+          {
+            props.toggleModal();
+          }
+
+          return true;
+        }
+      });
 
         if (dish != null) {
             return(
               <Animatable.View animation="fadeInDown" duration={2000} delay={100}
-                 ref={this.handleViewRef}
-               {...panResponder.panHandlers}>
+                 //ref={this.handleViewRef}
+                 {...panResponder.panHandlers}>
                   <Card
                     featuredTitle={dish.name}
                     image={{uri: baseUrl + dish.image }}>
