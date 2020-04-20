@@ -179,12 +179,13 @@ const ContactNavigator = createStackNavigator({
       });
 
       const LoginNavigator = createStackNavigator({
-          Login: {screen: Login},
+          Login: Login ,
         },{
           defaultNavigationOptions: ({navigation}) => ({
             headerStyle: {
               backgroundColor: '#512DA8',
             },
+            title: 'Login',
             headerTintColor: '#fff',
             headerTitleStyle: {
               color: '#fff',
