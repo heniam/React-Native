@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import {View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import {Icon, Input, CheckBox, Button } from 'react-native-elements';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { baseUrl } from '../shared/baseUrl';
 import * as SecureStore from 'expo-secure-store';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { baseUrl } from '../shared/baseUrl';
+import * as ImageManipulator from "expo-image-manipulator";
+import { Asset } from 'expo-asset';
+
 
 class LoginTab extends Component{
 
@@ -85,7 +88,7 @@ class LoginTab extends Component{
                   <View style={styles.formButton}>
                       <Button
                           onPress={() => this.handleLogin()}
-                          title="Login"
+                          title=" Login"
                           icon={
                               <Icon
                                   name='sign-in'
@@ -154,10 +157,21 @@ class LoginTab extends Component{
              });
              if (!capturedImage.cancelled) {
                  console.log(capturedImage);
-                 this.setState({imageUrl: capturedImage.uri });
+                 this.processedImage( capturedImage.uri );
              }
          }
 
+     }
+
+     processedImage = async(imageUri) => {
+        let processedImage = await ImageManipulator.manipulate(
+            imageUri,
+            [
+              { resize: { width: 400 }}
+            ],
+            { format: 'png' }
+        );
+        this.setState({ imageUrl: processedImage.uri })
      }
 
      static navigationOptions = {
@@ -280,6 +294,16 @@ const Login = createBottomTabNavigator({
      container: {
          justifyContent: 'center',
          margin: 20,
+     },
+     imageContainer: {
+       flex: 1,
+       flexDirection: 'row',
+       margin: 20
+     },
+     image: {
+       margin: 10,
+       width: 80,
+       height: 60
      },
      formInput: {
          justifyContent:'center',
