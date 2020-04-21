@@ -45,20 +45,15 @@ class LoginTab extends Component{
       )
     };
 
-    handleLogin(){
-      console.log(JSON.stringify(this.state));
-      if(this.state.remember){
-         SecureStore.getItemAsync(
-          'userinfo',
-           JSON.stringify({username: this.state.username, password: this.state.password})
-        )
-        .catch((error) => console.log('Could not save user info', error))
-      }
-      else {
-        SecureStore.deleteItemAsync('userinfo')
-        .catch((error) => console.log('Could not delete user info', error))
-      }
-    }
+    handleLogin() {
+       console.log(JSON.stringify(this.state));
+       if (this.state.remember)
+           SecureStore.setItemAsync('userinfo', JSON.stringify({ username: this.state.username, password: this.state.password }))
+               .catch((error) => console.log('Could not save user info', error));
+       else
+           SecureStore.deleteItemAsync('userinfo')
+               .catch((error) => console.log('Could not delete user info', error));
+   }
 
     render() {
           return (
@@ -147,32 +142,50 @@ class LoginTab extends Component{
 
 
     getImageFromCamera = async () => {
-         const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
-         const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+        const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (cameraPermission.status === 'granted' && cameraRollPermission.status === 'granted') {
+            let capturedImage = await ImagePicker.launchCameraAsync({
+                allowsEditing: true,
+                aspect: [4, 3],
+            });
+            if (!capturedImage.cancelled) {
+                console.log(capturedImage);
+                this.processImage(capturedImage.uri);
+            }
+        }
 
-         if (cameraPermission.status === 'granted' && cameraRollPermission.status === 'granted') {
-             let capturedImage = await ImagePicker.launchCameraAsync({
-                 allowsEditing: true,
-                 aspect: [4, 3],
-             });
-             if (!capturedImage.cancelled) {
-                 console.log(capturedImage);
-                 this.processedImage( capturedImage.uri );
-             }
-         }
+     };
 
-     }
+     getImageFromGallery = async () =>{
+          const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-     processedImage = async(imageUri) => {
-        let processedImage = await ImageManipulator.manipulate(
-            imageUri,
-            [
-              { resize: { width: 400 }}
-            ],
-            { format: 'png' }
-        );
-        this.setState({ imageUrl: processedImage.uri })
-     }
+          if (cameraRollPermission.status === "granted"){
+            let capturedImage = await ImagePicker.launchImageLibraryAsync({
+              allowsEditing: true,
+              aspect: [4,3]
+            });
+
+            //user did not cancel image capture
+            if (capturedImage.cancelled === false){
+              console.log(capturedImage);
+              this.processImage(capturedImage.uri);
+            }
+          }
+        };
+
+
+      processImage = async (imageUri) => {
+          let processedImage = await ImageManipulator.manipulateAsync(
+              imageUri,
+             [
+                 {resize: {width:400}}
+             ],
+             { format: 'png'}
+         );
+         console.log(processedImage);
+         this.setState({ imageUrl : processedImage.uri });
+     };
 
      static navigationOptions = {
          title: 'Register',
@@ -191,7 +204,7 @@ class LoginTab extends Component{
          if (this.state.remember)
              SecureStore.setItemAsync('userinfo', JSON.stringify({username: this.state.username, password: this.state.password}))
                  .catch((error) => console.log('Could not save user info', error));
-     }
+     };
 
      render() {
          return(
@@ -206,7 +219,13 @@ class LoginTab extends Component{
                      <Button
                          title="Camera"
                          onPress={this.getImageFromCamera}
-                         />
+                         style={{ marginHorizontal: '5%' }}
+                        />
+                    <Button
+                        title="Gallery"
+                        onPress={this.getImageFromGallery}
+                        style={{ marginHorizontal: '5%' }}
+                    />
                  </View>
                  <Input
                      placeholder="Username"
@@ -227,7 +246,7 @@ class LoginTab extends Component{
                  <Input
                      placeholder="First Name"
                      leftIcon={{ type: 'font-awesome', name: 'user-o' }}
-                     onChangeText={(lastname) => this.setState({firstname})}
+                     onChangeText={(firstname) => this.setState({firstname})}
                      value={this.state.firstname}
                      containerStyle={styles.formInput}
                      leftIconContainerStyle={styles.lefticon}
@@ -298,8 +317,9 @@ const Login = createBottomTabNavigator({
      imageContainer: {
        flex: 1,
        flexDirection: 'row',
-       margin: 20
-     },
+       margin: 20,
+       justifyContent: 'space-around'
+   },
      image: {
        margin: 10,
        width: 80,
