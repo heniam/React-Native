@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Platform, Text, ScrollView, Image, StyleSheet } from 'react-native';
+import { View, Platform, Text, ScrollView, Image, StyleSheet, ToastAndroid} from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer ,SafeAreaView } from 'react-navigation';
 import { createDrawerNavigator, DrawerItems} from 'react-navigation-drawer';
@@ -22,7 +22,7 @@ YellowBox.ignoreWarnings(['VirtualizedLists should never be nested']);
 
 import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders} from '../redux/ActionCreators';
-
+import NetInfo from '@react-native-community/netinfo';
 
 
 
@@ -359,9 +359,52 @@ class Main extends Component {
     this.props.fetchComments();
     this.props.fetchPromos();
     this.props.fetchLeaders();
-  }
+
+//most of this stuff is depreceated !!!
+
+    /*NetInfo.fetch()
+                .then((connectionInfo) => {
+                    ToastAndroid.show('Initial Network Connectivity Type: '
+                        + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType,
+                        ToastAndroid.LONG)
+                });
+
+            NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
+        }
+
+        componentWillUnmount() {
+            NetInfo.removeEventListener('connectionChange', this.handleConnectivityChange);
+        }
+
+
+
+        handleConnectivityChange = (connectionInfo) => {
+            switch (connectionInfo.type) {
+                case 'none':
+                    ToastAndroid.show('You are now offline!', ToastAndroid.LONG);
+                    break;
+                case 'wifi':
+                    ToastAndroid.show('You are now connected to WiFi!', ToastAndroid.LONG);
+                    break;
+                case 'cellular':
+                    ToastAndroid.show('You are now connected to Cellular!', ToastAndroid.LONG);
+                    break;
+                case 'unknown':
+                    ToastAndroid.show('You now have unknown connection!', ToastAndroid.LONG);
+                    break;
+                default:
+                    break;
+            }*/
+        }
+
+
 
   render() {
+    const unsubscribe = NetInfo.addEventListener(state => {
+       console.log('Connection type', state.type);
+       console.log('Is connected?', state.isConnected);
+     });
+
     return (
       <View
         style={{
@@ -370,6 +413,7 @@ class Main extends Component {
             Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight,
         }}>
         <MainNavigatorContainer />
+        {unsubscribe}
       </View>
     );
   }
