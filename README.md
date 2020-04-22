@@ -3,4 +3,4 @@ Learning React Native on Coursera -- Full Stack React development Course.
 
 
 
-![alt App](/App.gif) ![alt WorkingApp](/App1.gif)
+![alt App](/App.gif) ![alt WorkingApp](/app2.gif)
