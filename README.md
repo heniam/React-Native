@@ -1,7 +1,4 @@
 # Multiplatform Mobile App Development with React Native
 Learning React Native on Coursera -- Full Stack React development Course.
-
-
-
-
-![alt WorkingApp](/App.gif)
+  [X] Finished the course. 
+![alt WorkingApp](/App1.gif)

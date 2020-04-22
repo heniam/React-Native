@@ -1,5 +1,6 @@
 node_modules/**/*
 .expo/*
+confusion.app/**/*
 assets/**/*
 npm-debug.*
 *.jks

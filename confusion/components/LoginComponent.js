@@ -46,14 +46,19 @@ class LoginTab extends Component{
     };
 
     handleLogin() {
-       console.log(JSON.stringify(this.state));
-       if (this.state.remember)
-           SecureStore.setItemAsync('userinfo', JSON.stringify({ username: this.state.username, password: this.state.password }))
-               .catch((error) => console.log('Could not save user info', error));
-       else
-           SecureStore.deleteItemAsync('userinfo')
-               .catch((error) => console.log('Could not delete user info', error));
-   }
+          console.log(JSON.stringify(this.state));
+          if(this.state.remember)
+              SecureStore.setItemAsync(
+                'userinfo',
+                JSON.stringify({username: this.state.username , password: this.state.password })
+              )
+              .catch((error) => console.log('Could not save user info',error));
+
+          else
+              SecureStore.deleteItemAsync('userinfo')
+              .catch((error) => console.log('Could not delete user info',error));
+
+      }
 
     render() {
           return (
@@ -70,6 +75,7 @@ class LoginTab extends Component{
                       placeholder="Password"
                       leftIcon={{ type: 'font-awesome', name: 'key' }}
                       onChangeText={(password) => this.setState({password})}
+                      secureTextEntry={true}
                       value={this.state.password}
                       containerStyle={styles.formInput}
                       leftIconContainerStyle={styles.lefticon}
@@ -200,12 +206,15 @@ class LoginTab extends Component{
      };
 
      handleRegister() {
-         console.log(JSON.stringify(this.state));
-         if (this.state.remember)
-             SecureStore.setItemAsync('userinfo', JSON.stringify({username: this.state.username, password: this.state.password}))
-                 .catch((error) => console.log('Could not save user info', error));
-     };
+      console.log(JSON.stringify(this.state));
+      if(this.state.remember)
+        SecureStore.setItemAsync(
+          'userinfo',
+          JSON.stringify({username: this.state.username , password: this.state.password })
+        )
+        .catch((error) => console.log('Could not save user info',error));
 
+  }
      render() {
          return(
              <ScrollView>
@@ -239,6 +248,7 @@ class LoginTab extends Component{
                      placeholder="Password"
                      leftIcon={{ type: 'font-awesome', name: 'key' }}
                      onChangeText={(password) => this.setState({password})}
+                     secureTextEntry={true}
                      value={this.state.password}
                      containerStyle={styles.formInput}
                      leftIconContainerStyle={styles.lefticon}

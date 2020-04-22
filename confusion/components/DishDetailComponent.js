@@ -236,14 +236,16 @@ class Dishdetail extends Component {
                          </View>
                          <View style={{ marginVertical: 10 }}>
                              <Input
-                                 placeholder='  Author'
+                                 placeholder='Author'
                                  leftIcon={{ type: 'font-awesome', name: 'user-o' }}
                                  onChangeText={text => this.author = text}
+                                 leftIconContainerStyle={styles.lefticon}
                              />
                              <Input
-                                 placeholder='  Comment'
+                                 placeholder='Comment'
                                  leftIcon={{ type: 'font-awesome', name: 'comments-o' }}
                                  onChangeText={text => this.comment = text}
+                                 leftIconContainerStyle={styles.lefticon}
                              />
                          </View>
                          <View style={styles.button}>
@@ -279,7 +281,11 @@ class Dishdetail extends Component {
          margin: 10,
          flexDirection: "column",
          flex: 1
+     },
+     lefticon: {
+       marginRight: 10
      }
+
  });
 
 
